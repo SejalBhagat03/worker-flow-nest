@@ -5,7 +5,7 @@ import LabourManagement from "@/components/labour/LabourManagement";
 import WorkManagement from "@/components/work/WorkManagement";
 import PaymentManagement from "@/components/payments/PaymentManagement";
 import Reports from "@/components/reports/Reports";
-import Settings from "@/components/settings/Settings";
+import HelpSupport from "@/components/help/HelpSupport";
 
 const Index = () => {
   const [activeTab, setActiveTab] = useState("dashboard");
@@ -22,8 +22,8 @@ const Index = () => {
         return <PaymentManagement />;
       case "reports":
         return <Reports />;
-      case "settings":
-        return <Settings />;
+      case "help":
+        return <HelpSupport />;
       default:
         return <Dashboard />;
     }

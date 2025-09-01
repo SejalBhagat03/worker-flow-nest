@@ -12,11 +12,11 @@ interface LayoutProps {
 
 const menuItems = [
   { id: "dashboard", label: "Dashboard", icon: Home },
-  { id: "labour", label: "Labour Management", icon: Users },
-  { id: "work", label: "Work Management", icon: Briefcase },
+  { id: "labour", label: "Workers", icon: Users },
+  { id: "work", label: "Projects", icon: Briefcase },
   { id: "payments", label: "Payments", icon: DollarSign },
   { id: "reports", label: "Reports", icon: BarChart3 },
-  { id: "settings", label: "Settings", icon: Settings },
+  { id: "help", label: "Help & Support", icon: Settings },
 ];
 
 export default function Layout({ children, activeTab, onTabChange }: LayoutProps) {
@@ -24,8 +24,13 @@ export default function Layout({ children, activeTab, onTabChange }: LayoutProps
 
   const SidebarContent = () => (
     <div className="flex h-full flex-col bg-card border-r">
-      <div className="flex h-16 items-center border-b px-6">
-        <h1 className="text-xl font-bold text-primary">Labour Management</h1>
+      <div className="flex h-16 items-center border-b px-6 bg-gradient-subtle">
+        <div className="flex items-center gap-3">
+          <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
+            <Users className="h-5 w-5 text-primary-foreground" />
+          </div>
+          <h1 className="text-xl font-bold text-primary">Labour Manager</h1>
+        </div>
       </div>
       <nav className="flex-1 space-y-2 p-4">
         {menuItems.map((item) => {
@@ -77,15 +82,25 @@ export default function Layout({ children, activeTab, onTabChange }: LayoutProps
 
       {/* Main Content */}
       <div className="flex flex-1 flex-col overflow-hidden">
-        <header className="flex h-16 items-center justify-between border-b bg-card px-6">
-          <h2 className="text-lg font-semibold capitalize text-foreground">
-            {menuItems.find(item => item.id === activeTab)?.label || "Dashboard"}
-          </h2>
+        <header className="flex h-16 items-center justify-between border-b bg-gradient-subtle px-6">
+          <div className="flex items-center gap-3">
+            <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
+              {(() => {
+                const Icon = menuItems.find(item => item.id === activeTab)?.icon || Home;
+                return <Icon className="h-4 w-4 text-primary" />;
+              })()}
+            </div>
+            <h2 className="text-lg font-semibold text-foreground">
+              {menuItems.find(item => item.id === activeTab)?.label || "Dashboard"}
+            </h2>
+          </div>
           <div className="flex items-center gap-4">
             <div className="text-sm text-muted-foreground">
-              Welcome, Admin
+              Welcome, Supervisor
             </div>
-            <div className="h-8 w-8 rounded-full bg-primary"></div>
+            <div className="w-8 h-8 rounded-full bg-gradient-primary flex items-center justify-center text-white text-sm font-medium">
+              S
+            </div>
           </div>
         </header>
         <main className="flex-1 overflow-auto p-6">

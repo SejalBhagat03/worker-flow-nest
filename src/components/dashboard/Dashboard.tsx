@@ -1,6 +1,8 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Users, Briefcase, DollarSign, Clock, TrendingUp, UserCheck } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
+import { QuickStats } from "@/components/common/QuickStats";
+import { ActionButton } from "@/components/common/ActionButton";
 
 const stats = [
   {
@@ -34,10 +36,10 @@ const stats = [
 ];
 
 const recentProjects = [
-  { name: "Construction Site A", progress: 85, status: "On Track", workers: 45 },
-  { name: "Road Maintenance", progress: 60, status: "Delayed", workers: 22 },
-  { name: "Building Renovation", progress: 95, status: "Almost Done", workers: 18 },
-  { name: "Garden Development", progress: 30, status: "Started", workers: 12 }
+  { name: "Construction Site A", progress: 85, status: "On Track", workers: 45, deadline: "5 days left" },
+  { name: "Road Maintenance", progress: 60, status: "Delayed", workers: 22, deadline: "Overdue" },
+  { name: "Building Renovation", progress: 95, status: "Almost Done", workers: 18, deadline: "2 days left" },
+  { name: "Garden Development", progress: 30, status: "Started", workers: 12, deadline: "45 days left" }
 ];
 
 const recentPayments = [
@@ -52,30 +54,16 @@ export default function Dashboard() {
     <div className="space-y-6">
       {/* Stats Cards */}
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        {stats.map((stat) => {
-          const Icon = stat.icon;
-          return (
-            <Card key={stat.title} className="shadow-soft hover:shadow-medium transition-all duration-300">
-              <CardContent className="p-6">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm font-medium text-muted-foreground">
-                      {stat.title}
-                    </p>
-                    <p className="text-2xl font-bold">{stat.value}</p>
-                    <p className="text-xs text-green-600 flex items-center gap-1">
-                      <TrendingUp className="h-3 w-3" />
-                      {stat.change}
-                    </p>
-                  </div>
-                  <div className={`rounded-full p-3 bg-muted ${stat.color}`}>
-                    <Icon className="h-6 w-6" />
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          );
-        })}
+        {stats.map((stat) => (
+          <QuickStats
+            key={stat.title}
+            title={stat.title}
+            value={stat.value}
+            change={stat.change}
+            icon={stat.icon}
+            color={stat.color}
+          />
+        ))}
       </div>
 
       <div className="grid gap-6 lg:grid-cols-2">
@@ -107,6 +95,11 @@ export default function Dashboard() {
                       'text-orange-600'
                     }`}>
                       {project.status}
+                    </span>
+                    <span className={`text-xs ${
+                      project.deadline === 'Overdue' ? 'text-red-600 font-medium' : 'text-muted-foreground'
+                    }`}>
+                      {project.deadline}
                     </span>
                   </div>
                 </div>
@@ -147,28 +140,19 @@ export default function Dashboard() {
       </div>
 
       {/* Quick Actions */}
-      <Card className="shadow-soft">
+      <Card className="shadow-soft animate-fade-in">
         <CardHeader>
-          <CardTitle>Quick Actions</CardTitle>
+          <CardTitle className="flex items-center gap-2">
+            <Clock className="h-5 w-5 text-primary" />
+            Quick Actions
+          </CardTitle>
         </CardHeader>
         <CardContent>
           <div className="grid gap-4 md:grid-cols-4">
-            <button className="flex flex-col items-center gap-2 p-4 rounded-lg bg-primary/10 hover:bg-primary/20 transition-colors">
-              <Users className="h-8 w-8 text-primary" />
-              <span className="font-medium">Add Worker</span>
-            </button>
-            <button className="flex flex-col items-center gap-2 p-4 rounded-lg bg-primary/10 hover:bg-primary/20 transition-colors">
-              <Briefcase className="h-8 w-8 text-primary" />
-              <span className="font-medium">New Project</span>
-            </button>
-            <button className="flex flex-col items-center gap-2 p-4 rounded-lg bg-primary/10 hover:bg-primary/20 transition-colors">
-              <DollarSign className="h-8 w-8 text-primary" />
-              <span className="font-medium">Record Payment</span>
-            </button>
-            <button className="flex flex-col items-center gap-2 p-4 rounded-lg bg-primary/10 hover:bg-primary/20 transition-colors">
-              <Clock className="h-8 w-8 text-primary" />
-              <span className="font-medium">Track Time</span>
-            </button>
+            <ActionButton icon={Users} label="Add Worker" />
+            <ActionButton icon={Briefcase} label="New Project" />
+            <ActionButton icon={DollarSign} label="Record Payment" />
+            <ActionButton icon={Clock} label="Track Time" />
           </div>
         </CardContent>
       </Card>
