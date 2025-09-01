@@ -1,13 +1,38 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { useState } from "react";
+import Layout from "@/components/layout/Layout";
+import Dashboard from "@/components/dashboard/Dashboard";
+import LabourManagement from "@/components/labour/LabourManagement";
+import WorkManagement from "@/components/work/WorkManagement";
+import PaymentManagement from "@/components/payments/PaymentManagement";
+import Reports from "@/components/reports/Reports";
+import Settings from "@/components/settings/Settings";
 
 const Index = () => {
+  const [activeTab, setActiveTab] = useState("dashboard");
+
+  const renderContent = () => {
+    switch (activeTab) {
+      case "dashboard":
+        return <Dashboard />;
+      case "labour":
+        return <LabourManagement />;
+      case "work":
+        return <WorkManagement />;
+      case "payments":
+        return <PaymentManagement />;
+      case "reports":
+        return <Reports />;
+      case "settings":
+        return <Settings />;
+      default:
+        return <Dashboard />;
+    }
+  };
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
-      </div>
-    </div>
+    <Layout activeTab={activeTab} onTabChange={setActiveTab}>
+      {renderContent()}
+    </Layout>
   );
 };
 
